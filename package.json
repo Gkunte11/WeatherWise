@@ -4,7 +4,7 @@
   "description": "Full Stack Project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "nodemon server"
   },
   "repository": {
     "type": "git",
@@ -22,11 +22,15 @@
   },
   "homepage": "https://github.com/Gkunte11/WeatherWise#readme",
   "devDependencies": {
+    "body-parser": "^1.18.3",
     "concurrently": "^4.1.0",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.10",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
   },
   "dependencies": {
     "cookie-parser": "^1.4.4",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "pg": "^7.8.2"
   }
 }
