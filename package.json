@@ -4,6 +4,8 @@
   "description": "Full Stack Project",
   "main": "index.js",
   "scripts": {
+    "dev": "concurrently \"npm rum server\" \"npm run client\"",
+    "client": "npm start --prefix client",
     "server": "nodemon server"
   },
   "repository": {
