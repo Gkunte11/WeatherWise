@@ -1,7 +1,7 @@
 var { Pool } = require("pg"); 
 
 // not sure about this - might need some changes in gauravkunte:WeatherWise
-const CONNECTION_STRING = process.env.DATABASE_URL || 'postgresql://gauravkunte:123456789@localhost:5432/weatherDB'; 
+const CONNECTION_STRING = process.env.DATABASE_URL || 'postgresql://gauravkunte:123@localhost:5432/weather-db'; 
 const SSL = process.env.NODE_ENV === 'production';
 
 class Database{
@@ -44,5 +44,4 @@ class Database{
     }
 }
 
-module.exports = new Database();     //exports i.e returns new instance of the class
-
+module.exports = new Database();

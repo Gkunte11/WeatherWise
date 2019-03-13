@@ -101,7 +101,6 @@ class App extends Component {
             <Jumbotron>
 
               {/* //<div className = "logo">
-
                 
               </div> */}
               <img src = {logo} className = "logo"/>
