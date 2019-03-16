@@ -51,20 +51,22 @@ class App extends Component {
 
   handleAddCity = () => {
 
-    fetch('/api/cities', {
+    if (this.state.newCityName) {
+      fetch('/api/cities', {
 
-      method: 'post',
-      headers: { 'Content-Type': 'application/json'},
-      body: JSON.stringify({ city: this.state.newCityName })
-    })
+        method: 'post',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify({ city: this.state.newCityName })
+      })
 
-    .then(res => res.json())
-    .then(res => {
+      .then(res => res.json())
+      .then(res => {
 
-      this.getCityList();
-      this.setState({ newCityName: ''});
+        this.getCityList();
+        this.setState({ newCityName: ''});
 
-    });
+      });
+    }
   };
 
   handleChangeCity = (e) => {
@@ -83,6 +85,17 @@ class App extends Component {
     });
   }
 
+  getForecast = (city) => {
+
+    fetch(`/api/Forecast/${city}`)
+    .then(res => res.json() )
+    .then(Forecast => {
+      console.log(Forecast);
+      this.setState({ Forecast});
+    });
+  }
+  
+
   componentDidMount() {
 
     this.getCityList();
@@ -91,21 +104,24 @@ class App extends Component {
     return (
       
       <Container fluid className = "centered">
-        <Navbar dark color = "dark">
+        {/* <Navbar dark color = "dark">
 
           <NavbarBrand href = "/">MyWeatherApp</NavbarBrand>
-        </Navbar>
+        </Navbar> */}
         <Row>
           <Col>
 
-            <Jumbotron>
+            <Jumbotron >
 
               {/* //<div className = "logo">
                 
               </div> */}
-              <img src = {logo} className = "logo"/>
-              <h1 className = "display-3">MyWeatherApp</h1>
-              <p className = "lead">The current weather for your favorite cities</p>
+              <div className = "div">
+
+                <img src = {logo} className = "logo"/>
+                <h3 className = "display-3">WeatherWise</h3>
+
+              </div>
 
               <InputGroup>
 
@@ -113,11 +129,13 @@ class App extends Component {
 
                 placeholder = "New City"
                 value = {this.state.city_name}
+                
                 onChange = {this.handleInputChange}
                 />
 
                 <InputGroupAddon addonType = "append"> 
 
+                  
                   <Button color = "primary" onClick = {this.handleAddCity}>Add City</Button>
                 </InputGroupAddon>
                 
@@ -131,7 +149,7 @@ class App extends Component {
         <Row>
           <Col>
           
-              <h1 className = "display-5">Current Weather</h1>
+              <h3 className = "display-5">Current Weather</h3>
               <FormGroup>
 
                 <Input type = "select" onChange = {this.handleChangeCity}>
@@ -141,10 +159,15 @@ class App extends Component {
                   { this.state.cityList.map((city, i) => <option key = {i}>{city}</option>)}
                 </Input>
               </FormGroup>
+              <Button color="primary" onClick={this.handleClick}>
+              Forecast {this.state.isToggleOn ? 'On' : 'Off'}
+              </Button>
           </Col>
         </Row>
+        {this.state.isToggleOn ? <Weather data={this.state.Forecast}/> : <Weather data={this.state.weather}/>}
+          
 
-        <Weather data = {this.state.weather}/>
+        {/* <Weather data = {this.state.weather}/> */}
 
       </Container>
 
