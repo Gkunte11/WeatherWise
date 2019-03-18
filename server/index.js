@@ -23,6 +23,13 @@ app.use('/api/weather', require('./api/weather'));
 
 app.use('/api/forecast', require('./api/forecast'));
 
+if (ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../client/build')));
+    app.use((req, res) => {
+      res.sendFile(path.join(__dirname, '../client/build/index.html'));
+    });
+  }
+
 app.listen(PORT, () => {
 
     console.log(`Server listening on port ${PORT} `);
