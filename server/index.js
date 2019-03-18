@@ -7,7 +7,7 @@ const bodyParser = require("body-parser"); // http interpretations of data betwe
 var db = require("./database");
 
 const ENV = process.env.NODE_ENV;
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8000;
 
 
 const app = express();
@@ -20,6 +20,8 @@ app.use(bodyParser.json());
 app.use('/api/cities', require('./api/cities'));
 
 app.use('/api/weather', require('./api/weather'));
+
+app.use('/api/forecast', require('./api/forecast'));
 
 app.listen(PORT, () => {
 

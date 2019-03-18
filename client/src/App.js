@@ -1,36 +1,31 @@
 import React, { Component } from 'react';
-
 import logo from './sun.png';
 
+
 import {
-
   Container,
-  Navbar,
-  NavbarBrand,
   Row,
-  Col,
-  Input,
+  Jumbotron,
+  InputGroup,
+  InputGroupAddon,
   Button,
-  InputGroupAddon
+  FormGroup,
+  Input,
+  Col
 } from 'reactstrap';
-
 import Weather from './Weather';
-import Jumbotron from 'reactstrap/lib/Jumbotron';
-import InputGroup from 'reactstrap/lib/InputGroup';
-import FormGroup from 'reactstrap/lib/FormGroup';
+import Forecast from './Forecast';
 
 class App extends Component {
-
-  constructor(props){
-
+  constructor(props) {
     super(props);
 
     this.state = {
-
-      weather: null,
-      cityList: [],
-      newCityName: ''
-
+       weather: null,
+       forecast: null,
+       cityList: [],
+       newCityName: '',
+       isToggleOn: false,
     };
   }
 
@@ -44,133 +39,95 @@ class App extends Component {
   };
 
   handleInputChange = (e) => {
-
     this.setState({ newCityName: e.target.value });
-
   };
 
   handleAddCity = () => {
-
-    if (this.state.newCityName) {
+     if (this.state.newCityName) {
       fetch('/api/cities', {
-
         method: 'post',
-        headers: { 'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ city: this.state.newCityName })
       })
-
       .then(res => res.json())
       .then(res => {
-
         this.getCityList();
-        this.setState({ newCityName: ''});
-
+        this.setState({ newCityName: '' });
       });
     }
   };
 
-  handleChangeCity = (e) => {
-
-    this.getweather(e.target.value);
-
-  }
-
-  getweather = (city) => {
-
+  getWeather = (city) => {
     fetch(`/api/weather/${city}`)
-    .then(res => res.json() )
+    .then(res => res.json())
     .then(weather => {
       console.log(weather);
-      this.setState({ weather});
+      this.setState({ weather });
     });
-  }
+  };
 
   getForecast = (city) => {
-
-    fetch(`/api/Forecast/${city}`)
-    .then(res => res.json() )
-    .then(Forecast => {
-      console.log(Forecast);
-      this.setState({ Forecast});
+    fetch(`/api/forecast/${city}`)
+    .then(res => res.json())
+    .then(forecast => {
+      console.log(forecast);
+      this.setState({ forecast });
     });
-  }
-  
+  };
 
-  componentDidMount() {
+  handleChangeCity = (e) => {
+    
+    this.getWeather(e.target.value);
+    this.getForecast(e.target.value);
+  };
 
+  handleClick  = (e) => {
+   this.setState({ isToggleOn: ! (this.state.isToggleOn)  });
+ };
+
+  componentDidMount () {
     this.getCityList();
   }
+
   render() {
     return (
-      
-      <Container fluid className = "centered">
-        {/* <Navbar dark color = "dark">
-
-          <NavbarBrand href = "/">MyWeatherApp</NavbarBrand>
-        </Navbar> */}
+      <Container fluid className="centered">
         <Row>
           <Col>
+            <Jumbotron>
 
-            <Jumbotron >
-
-              {/* //<div className = "logo">
-                
-              </div> */}
-              <div className = "div">
-
-                <img src = {logo} className = "logo"/>
-                <h3 className = "display-3">WeatherWise</h3>
-
-              </div>
-
+            <img src = {logo} className = "logo"/>
+            <h3 className = "display-3">WeatherWise</h3>
               <InputGroup>
-
                 <Input
-
-                placeholder = "New City"
-                value = {this.state.city_name}
-                
-                onChange = {this.handleInputChange}
+                  placeholder="New city name..."
+                  value={this.state.newCityName}
+                  onChange={this.handleInputChange}
                 />
-
-                <InputGroupAddon addonType = "append"> 
-
-                  
-                  <Button color = "primary" onClick = {this.handleAddCity}>Add City</Button>
+                <InputGroupAddon addonType="append">
+                  <Button color="primary" onClick={this.handleAddCity}>Add City</Button>
                 </InputGroupAddon>
-                
-              </InputGroup> 
-            </Jumbotron> 
-
-                     
+              </InputGroup>
+            </Jumbotron>
           </Col>
         </Row>
-
         <Row>
           <Col>
-          
-              <h3 className = "display-5">Current Weather</h3>
-              <FormGroup>
-
-                <Input type = "select" onChange = {this.handleChangeCity}>
-
-                  { this.state.cityList.length === 0 && <option>No cities added yet.</option>}
-                  { this.state.cityList.length > 0 && <option>Select a city</option> }
-                  { this.state.cityList.map((city, i) => <option key = {i}>{city}</option>)}
-                </Input>
-              </FormGroup>
-              <Button color="primary" onClick={this.handleClick}>
+            <h1 className="display-5">Current Weather</h1>
+            <FormGroup>
+              <Input type="select" onChange={this.handleChangeCity}>
+                { this.state.cityList.length === 0 && <option selected disabled>No cities added yet.</option> }
+                { this.state.cityList.length > 0 && <option selected disabled>Select a city.</option> }
+                { this.state.cityList.map((city, i) => <option key={i}>{city}</option>) }
+              </Input>
+            </FormGroup>
+            <Button color="primary" onClick={this.handleClick}>
               Forecast {this.state.isToggleOn ? 'On' : 'Off'}
-              </Button>
+            </Button>
           </Col>
         </Row>
-        {this.state.isToggleOn ? <Weather data={this.state.Forecast}/> : <Weather data={this.state.weather}/>}
-          
-
-        {/* <Weather data = {this.state.weather}/> */}
-
+        {this.state.isToggleOn ? <Forecast data={this.state.forecast}/> : <Weather data={this.state.weather}/>  }
       </Container>
-
 
     );
   }

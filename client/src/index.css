@@ -21,8 +21,8 @@ code {
 
 .logo{
 
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
 }
 
 .form-group {
@@ -42,3 +42,12 @@ code {
 .weather {
   margin-top: 30px
 }
+
+.div img {
+  width: 100px;
+  height: 100px;
+ }
+ 
+ .div h1 {
+  position: relative;
+ }
