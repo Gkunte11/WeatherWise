@@ -1,6 +1,7 @@
 var { Pool } = require("pg"); 
 
 // not sure about this - might need some changes in gauravkunte:WeatherWise
+// database url on heroku - name = weatherdbapp
 const CONNECTION_STRING = process.env.DATABASE_URL || 'postgresql://gauravkunte:123@localhost:5432/weather-db'; 
 const SSL = process.env.NODE_ENV === 'production';
 
