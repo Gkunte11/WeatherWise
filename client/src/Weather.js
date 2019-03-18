@@ -5,6 +5,8 @@ const Weather = (props) =>{
 
     const {data} = props;
 
+    //console.log(data)
+
     if (!data){
         return <div></div>
     }
@@ -25,18 +27,23 @@ const Weather = (props) =>{
                     <tbody>
 
                         <tr>
-                            <td>Wind</td>
+                            <td>Wind Speed</td>
                             <td>{Math.floor(data.wind.speed)} km/h</td>
                         </tr>
             
-                        <tr>
+                        {/* <tr>
                             <td>Pressure</td>
                             <td>{Math.floor(data.main.pressure)} hPa</td>
-                        </tr>
+                        </tr> */}
                         <tr>
                             <td>Humidity</td>
-                            <td>{Math.floor(data.main.humidity)}%</td>
+                            <td>{Math.floor(data.main.humidity)}</td>
                         </tr>
+
+                        {/* <tr>
+                            <td>Description</td>
+                            <td>{data.weather[0].description}%</td>
+                        </tr> */}
                         <tr>
                             <td>Min Temp</td>
                             <td>{Math.floor(data.main.temp_min)}&deg;F</td>
